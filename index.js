@@ -7,15 +7,7 @@ const User=require('./Model/User')
 
 
 const app = express();
-const corsOptions = {
-  origin: true, // Allow all origins
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: ['Content-Type', 'Authorization'],
-};
-
-app.use(cors(corsOptions))
-app.options('*', cors(corsOptions)); // Enable pre-flight requests for all routes
-
+app.use(cors())
 
 // Secret bot token
 const token = '7391685580:AAGbbqKx3sXuYgujCTIWz_0ce46YxZMsSPA';
