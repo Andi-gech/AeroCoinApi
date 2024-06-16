@@ -25,6 +25,7 @@ const authMiddleware = (req, res, next) => {
     try {
       validate(authData, token, { expiresIn: 3600 });
       setInitData(res, parse(authData));
+      console.log(res.locals.initData)
       return next();
     } catch (e) {
       return next(e);
