@@ -49,16 +49,16 @@ const generatereferralCode = () => {
   return Math.random().toString(36).substring(2, 8);
 }
 app.get('/',authMiddleware,async (req, res) => {
-const user=await User.findOne({telegramId:req.initData.user_id})
+let user=await User.findOne({telegramId:req.initData.user_id})
 if(!user){
-  const newUser=new User({
+  user=new User({
     telegramId:req.initData.user_id,
     referralCode:generatereferralCode(),
     referredBy:req.initData.startparams,
     referralCount:0
     
   })
-  await newUser.save()
+  await user.save()
 }
 
   return res.json({
