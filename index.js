@@ -20,7 +20,7 @@ const authMiddleware = (req, res, next) => {
   if (authType ==='tma') {
     try {
       validate(authData,token,{ expiresIn: 3600 });
-      req.locals.initData = parse(authData);
+      req.initData = parse(authData);
     
       return next();
     } catch (e) {
@@ -45,7 +45,7 @@ app.use(cors())
 app.get('/',authMiddleware, (req, res) => {
   return res.json({
     "dat":"jj",
-    "initData": req.locals.initData
+    "initData": req.initData
   });
 });
 
