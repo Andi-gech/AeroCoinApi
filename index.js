@@ -44,7 +44,10 @@ app.use(cors())
 
 
 app.get('/',authMiddleware, (req, res) => {
-  return res.json(req.locals.initData);
+  return res.json({
+    "dat":"jj",
+    "initData": req.locals.initData
+  });
 });
 
 app.listen(3000, () => {
