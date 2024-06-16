@@ -2,51 +2,14 @@
 const {validate,parse}=require('@tma.js/init-data-node')
 const express=require('express')
 const cors=require('cors')
-const TelegramBot = require('node-telegram-bot-api');
 const connect = require("./connect");
-const User = require('./Model/User'); 
+const User=require('./Model/User')
+
 
 
 
 // Secret bot token
 const token = '7391685580:AAGbbqKx3sXuYgujCTIWz_0ce46YxZMsSPA';
-const bot = new TelegramBot(token, { polling: true });
-// Generate a unique referral code
-const generateReferralCode = () => {
-  return crypto.randomBytes(4).toString('hex');
-};
-
-// Start command
-bot.onText(/\/start/, async (msg) => {
-  const chatId = msg.chat.id;
-  const referrerCode = msg.text.split(' ')[1];  // Get the referral code from the URL
-
-  let user = await User.findOne({ telegramId: chatId });
-
-  if (!user) {
-    const referralCode = generateReferralCode();
-    user = new User({
-      username: msg.chat.username,
-      telegramId: chatId,
-      referralCode: referralCode,
-      referredBy: referrerCode || null,
-    });
-
-    if (referrerCode) {
-      const referrer = await User.findOne({ referralCode: referrerCode });
-      if (referrer) {
-        referrer.referralCount += 1;
-        await referrer.save();
-      }
-    }
-
-    await user.save();
-    bot.sendMessage(chatId, `Welcome! Your referral code is: ${referralCode}`);
-  } else {
-    bot.sendMessage(chatId, `Welcome back! Your referral code is: ${user.referralCode}`);
-  }
-});
-
 
 // Middleware to set init data in the Response object
 
@@ -82,13 +45,46 @@ const authMiddleware = (req, res, next) => {
 const app = express();
 app.use(cors())
 
+const generatereferralCode = () => {
+  return Math.random().toString(36).substring(2, 8);
+}
+app.get('/',authMiddleware,async (req, res) => {
+const user=await User.findOne({telegramId:req.initData.user_id})
+if(!user){
+  const newUser=new User({
+    telegramId:req.initData.user_id,
+    referralCode:generatereferralCode(),
+    referredBy:req.initData.startparams,
+    referralCount:0
+    
+  })
+  await newUser.save()
+}
 
-app.get('/',authMiddleware, (req, res) => {
   return res.json({
-    "dat":"jj",
-    "initData": req.initData
+    "Authenticated":true,
+    "initData": req.initData,
+    "user":user
+
   });
 });
+app.get('/myreferral',authMiddleware,async (req, res) => {
+  const user=await User.findOne({telegramId:req.initData.user_id})
+  const users=await User.find({referredBy:user.referralCode})
+  return res.json({
+    "users":users,
+
+  });
+});
+app.post('/onclicks',authMiddleware,async (req, res) => {
+  
+
+  const user=await User.findOneAndUpdate({telegramId:req.initData.user_id},{$inc:{coin:Math.max(req.body.coin - (user?.coin || 0),0)}})
+
+  return res.json({
+    "user":user
+  });
+})
 
 connect().then(() => {
   app.listen(3000,() => {
