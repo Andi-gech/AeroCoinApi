@@ -76,7 +76,7 @@ app.get('/myreferral',authMiddleware,async (req, res) => {
 
   });
 });
-app.post('/onclicks',authMiddleware,async (req, res) => {
+app.put('/onclicks',authMiddleware,async (req, res) => {
   
 
   const user=await User.findOneAndUpdate({telegramId:req.initData.user_id},{$inc:{coin:Math.max(req.body.coin - (user?.coin || 0),0)}})
