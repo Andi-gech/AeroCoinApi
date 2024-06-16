@@ -1,6 +1,8 @@
 
 const {validate,parse}=require('@tma.js/init-data-node')
 const express=require('express')
+const cors=require('cors')
+
 
 // Secret bot token
 const token = '1234567890:ABC';
@@ -48,6 +50,7 @@ const defaultErrorMiddleware = (err, req, res, next) => {
 
 // Create an Express app and start listening on port 3000
 const app = express();
+app.use(cors())
 
 app.use(authMiddleware);
 app.get('/', showInitDataMiddleware);
