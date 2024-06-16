@@ -19,7 +19,9 @@ function getInitData(res) {
 
 // Middleware to authorize the external client
 const authMiddleware = (req, res, next) => {
+  console.log(req.header('authorization'))
   const [authType, authData = ''] = (req.header('authorization') || '').split(' ');
+  
 
   if (authType === 'tma') {
     try {
