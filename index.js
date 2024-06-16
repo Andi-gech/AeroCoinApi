@@ -15,7 +15,7 @@ const token = '7391685580:AAGbbqKx3sXuYgujCTIWz_0ce46YxZMsSPA';
 // Middleware to authorize the external client
 const authMiddleware = (req, res, next) => {
   console.log(req.header('authorization'),'authorization')
-  const [authType, authData = ''] = (req.header('authorization') || '').split(' ');
+  const [authType, authData = ''] = (req.header('Authorization') || '').split(' ');
 
   if (authType === 'tma') {
     try {
