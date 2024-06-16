@@ -19,7 +19,7 @@ const authMiddleware = (req, res, next) => {
 
   if (authType === 'tma') {
     try {
-      validate(authData, token, { expiresIn: 3600 });
+      validate(authData,token, { expiresIn: 3600 });
       req.locals.initData = parse(authData);
     
       return next();
