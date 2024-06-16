@@ -40,6 +40,7 @@ const showInitDataMiddleware = (req, res, next) => {
   if (!initData) {
     return next(new Error('Cannot display init data as it was not found'));
   }
+  console.log(initData)
   res.json(initData);
 };
 
