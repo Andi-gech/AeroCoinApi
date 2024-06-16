@@ -5,7 +5,7 @@ const cors=require('cors')
 
 
 // Secret bot token
-const token = '1234567890:ABC';
+const token = '7391685580:AAGbbqKx3sXuYgujCTIWz_0ce46YxZMsSPA';
 
 // Middleware to set init data in the Response object
 function setInitData(res, initData) {
