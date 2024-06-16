@@ -54,7 +54,7 @@ const app = express();
 app.use(cors())
 
 app.use(authMiddleware);
-app.get('/', showInitDataMiddleware);
+app.post('/', showInitDataMiddleware);
 app.use(defaultErrorMiddleware);
 
 app.listen(3000, () => {
