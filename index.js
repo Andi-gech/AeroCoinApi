@@ -25,10 +25,10 @@ const authMiddleware = (req, res, next) => {
     
       return next();
     } catch (e) {
-      return next(e);
+      return res.status(401).json({ error: 'Unauthorized' });
     }
   } else {
-    return next(new Error('Unauthorized'));
+    return res.status(401).json({ error: 'Unauthorized' });
   }
 };
 
@@ -41,8 +41,8 @@ const authMiddleware = (req, res, next) => {
 const app = express();
 app.use(cors())
 
-app.use(authMiddleware);
-app.get('/', (req, res) => {
+
+app.get('/',authMiddleware, (req, res) => {
   return res.json(req.locals.initData);
 });
 
