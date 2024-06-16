@@ -19,14 +19,15 @@ const authMiddleware = (req, res, next) => {
   
 
   if (authType === 'tma') {
-    try {
-      validate(authData, token, { expiresIn: 3600 });
+  
+      const {error}= validate(authData, token, { expiresIn: 3600 });
+      if(error) return res.status(401).json({ error: 'Unauthorizedaaaaaa' });
+      
+
       req.locals.initData = parse(authData);
     
       return next();
-    } catch (e) {
-      return res.send(e)
-    }
+   
   } else {
     return res.status(401).json({ error: 'Unauthorized' });
   }
