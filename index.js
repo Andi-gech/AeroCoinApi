@@ -19,7 +19,7 @@ function getInitData(res) {
 
 // Middleware to authorize the external client
 const authMiddleware = (req, res, next) => {
-  console.log(req.header('authorization'))
+  console.log(req.header('authorization'),'authorization')
   const [authType, authData = ''] = (req.header('authorization') || '').split(' ');
   
 
@@ -39,6 +39,7 @@ const authMiddleware = (req, res, next) => {
 
 // Middleware to show the user init data
 const showInitDataMiddleware = (req, res, next) => {
+  console.log('showing initdata')
   const initData = getInitData(res);
   if (!initData) {
     return next(new Error('Cannot display init data as it was not found'));
