@@ -17,7 +17,7 @@ const authMiddleware = (req, res, next) => {
   
   const [authType, authData = ''] = (req.header('Authorization') || '').split(' ');
 
-  if (authType === 'tma') {
+  if (authType ==='tma') {
     try {
       validate(authData,token,{ expiresIn: 3600 });
       req.locals.initData = parse(authData);
