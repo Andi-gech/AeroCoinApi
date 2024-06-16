@@ -6,7 +6,8 @@ const connect = require("./connect");
 const User=require('./Model/User')
 
 
-
+const app = express();
+app.use(cors())
 
 // Secret bot token
 const token = '7391685580:AAGbbqKx3sXuYgujCTIWz_0ce46YxZMsSPA';
@@ -42,8 +43,7 @@ const authMiddleware = (req, res, next) => {
 // Error handling middleware
 
 // Create an Express app and start listening on port 3000
-const app = express();
-app.use(cors())
+
 
 const generatereferralCode = () => {
   return Math.random().toString(36).substring(2, 8);
