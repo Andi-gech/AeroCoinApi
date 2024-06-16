@@ -81,9 +81,7 @@ app.post('/onclicks',authMiddleware,async (req, res) => {
 
   const user=await User.findOneAndUpdate({telegramId:req.initData.user_id},{$inc:{coin:Math.max(req.body.coin - (user?.coin || 0),0)}})
 
-  return res.json({
-    "user":user
-  });
+  return res.send('updated')
 })
 
 connect().then(() => {
