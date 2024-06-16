@@ -25,7 +25,7 @@ const authMiddleware = (req, res, next) => {
       return next();
     } catch (e) {
       console.log(e)
-      return res.send(e.message);
+      return res.send(e.message+' '+authData);
     }
   } else {
     return res.status(401).json({ error: 'Unauthorized' });
