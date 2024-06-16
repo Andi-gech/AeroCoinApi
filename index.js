@@ -76,10 +76,10 @@ app.get('/myreferral',authMiddleware,async (req, res) => {
 
   });
 });
-app.get('/onclicks/',authMiddleware,async (req, res) => {
+app.get('/onclicks/:count',authMiddleware,async (req, res) => {
   
 
-  const user=await User.findOneAndUpdate({telegramId:req.initData.user_id},{$inc:{coin:Math.max(req.body.coin - (user?.coin || 0),0)}})
+  const user=await User.findOneAndUpdate({telegramId:req.initData.user_id},{$inc:{coin:Math.max(Number(req.params.count)- (user?.coin || 0),0)}})
 
   return res.send('updated')
 })
